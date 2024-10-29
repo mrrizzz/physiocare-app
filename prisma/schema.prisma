@@ -1,0 +1,209 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id         Int       @id @default(autoincrement())
+  profile    Profile   @relation(fields: [profile_id], references: [id])
+  profile_id Int       @unique
+  username   String    @unique @db.VarChar(50)
+  email      String    @unique @db.VarChar(100)
+  password   String    @db.VarChar(255)
+  role       Role
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+}
+
+enum Role {
+  patient
+  medics
+  officer
+  owner
+}
+
+model Profile {
+  id             Int             @id @default(autoincrement())
+  name           String          @db.VarChar(100)
+  dob            DateTime?       @db.Date
+  age            Int?
+  gender         String?         @db.VarChar(10)
+  address        String?
+  phone          String?         @db.VarChar(50)
+  type           ProfileType
+  created_at     DateTime        @default(now())
+  updated_at     DateTime?       @updatedAt
+  account        Account?
+  staff          Staff[]
+  scheduling     Scheduling[]
+  medical_record MedicalRecord[]
+}
+
+enum ProfileType {
+  staff
+  patient
+}
+
+model Staff {
+  id            Int            @id @default(autoincrement())
+  profile       Profile        @relation(fields: [profile_id], references: [id])
+  profile_id    Int
+  position      Position       @relation(fields: [position_id], references: [id])
+  position_id   Int
+  join_date     DateTime       @db.Date
+  active        Boolean        @default(true)
+  created_at    DateTime       @default(now())
+  updated_at    DateTime?      @updatedAt
+  staff_service StaffService[]
+  scheduling    Scheduling[]
+}
+
+model Position {
+  id         Int     @id @default(autoincrement())
+  name       String
+  max_salary Int
+  min_salary Int
+  staff      Staff[]
+}
+
+model Service {
+  id            Int            @id @default(autoincrement())
+  name          String
+  price         Int
+  staff_service StaffService[]
+  scheduling    Scheduling[]
+}
+
+model StaffService {
+  staff      Staff     @relation(fields: [staff_id], references: [id])
+  staff_id   Int
+  service    Service   @relation(fields: [service_id], references: [id])
+  service_id Int
+  start_date DateTime  @db.Date
+  end_date   DateTime? @db.Date
+
+  @@id([staff_id, service_id, start_date])
+}
+
+model Scheduling {
+  id             Int              @id @default(autoincrement())
+  staff          Staff            @relation(fields: [staff_id], references: [id])
+  staff_id       Int
+  patient        Profile          @relation(fields: [patient_id], references: [id])
+  patient_id     Int
+  service        Service          @relation(fields: [service_id], references: [id])
+  service_id     Int
+  date           DateTime         @db.Date
+  session        Session
+  status         SchedulingStatus
+  created_at     DateTime         @default(now())
+  updated_at     DateTime?        @updatedAt
+  medical_record MedicalRecord[]
+  service_note   ServiceNote[]
+
+  @@unique([staff_id, date, session])
+}
+
+enum Session {
+  morning
+  afternoon
+  evening
+}
+
+enum SchedulingStatus {
+  scheduled
+  completed
+  cancelled
+}
+
+model MedicalRecord {
+  id                   Int           @id @default(autoincrement())
+  scheduling           Scheduling    @relation(fields: [scheduling_id], references: [id])
+  scheduling_id        Int
+  patient              Profile       @relation(fields: [patient_id], references: [id])
+  patient_id           Int
+  complaint            String?
+  medical_history      String?
+  physical_examination String?
+  systolic             Int?          @db.Integer
+  diastolic            Int?          @db.Integer
+  heart_rate           Int?          @db.Integer
+  respiratory_rate     Int?          @db.Integer
+  temperature          Decimal?      @db.Decimal(5, 2)
+  created_at           DateTime      @default(now())
+  updated_at           DateTime?     @updatedAt
+  service_note         ServiceNote[]
+}
+
+model ServiceNote {
+  id                Int            @id @default(autoincrement())
+  scheduling        Scheduling     @relation(fields: [scheduling_id], references: [id])
+  scheduling_id     Int
+  medical_record    MedicalRecord  @relation(fields: [medical_record_id], references: [id])
+  medical_record_id Int
+  additional_notes  String?
+  created_at        DateTime       @default(now())
+  updated_at        DateTime?      @updatedAt
+  prescription      Prescription[]
+  payment           Payment[]
+}
+
+model Prescription {
+  id                  Int                  @id @default(autoincrement())
+  service_note        ServiceNote          @relation(fields: [service_note_id], references: [id])
+  service_note_id     Int
+  created_at          DateTime             @default(now())
+  updated_at          DateTime?            @updatedAt
+  prescription_detail PrescriptionDetail[]
+}
+
+model PrescriptionDetail {
+  id                   Int              @id @default(autoincrement())
+  prescription         Prescription     @relation(fields: [prescription_id], references: [id])
+  prescription_id      Int
+  medical_inventory    MedicalInventory @relation(fields: [medical_inventory_id], references: [id])
+  medical_inventory_id Int
+  quantity             Int
+  dosage_instructions  String?
+  created_at           DateTime         @default(now())
+  updated_at           DateTime?        @updatedAt
+}
+
+model MedicalInventory {
+  id                  Int                  @id @default(autoincrement())
+  name                String               @db.VarChar(100)
+  description         String?
+  price               Decimal              @db.Decimal(12, 2)
+  stock               Int
+  type                InventoryType
+  created_at          DateTime             @default(now())
+  updated_at          DateTime?            @updatedAt
+  prescription_detail PrescriptionDetail[]
+}
+
+enum InventoryType {
+  medicine
+  aid
+  other
+}
+
+model Payment {
+  id              Int           @id @default(autoincrement())
+  service_note    ServiceNote   @relation(fields: [service_note_id], references: [id])
+  service_note_id Int
+  amount          Decimal       @db.Decimal(12, 2)
+  status          PaymentStatus
+  payment_method  String?       @db.VarChar(50)
+  created_at      DateTime      @default(now())
+  updated_at      DateTime?     @updatedAt
+}
+
+enum PaymentStatus {
+  pending
+  paid
+  cancelled
+}
