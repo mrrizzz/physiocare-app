@@ -93,7 +93,7 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        {/* <FormField
+        <FormField
           control={form.control}
           name="dob"
           render={({ field }) => (
@@ -134,7 +134,7 @@ export function ProfileForm() {
               <FormMessage />
             </FormItem>
           )}
-        /> */}
+        />
         <FormField
           control={form.control}
           name="gender"
