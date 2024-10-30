@@ -2,19 +2,26 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
 
 export default function LogoutButton() {
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("/api/logout", {
+      const response = await fetch("/api/auth/logout", {
         method: "POST",
-        credentials: "include",
       });
 
+      console.log("Logout response:", response);
+
       if (response.ok) {
-        router.push("/login");
+        localStorage.removeItem("token");
+        toast({
+          title: "Logout Successful",
+          description: "You will be redirected to the login page",
+        });
+        router.push("/auth");
       } else {
         console.error("Logout failed");
       }

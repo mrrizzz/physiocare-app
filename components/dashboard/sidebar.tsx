@@ -22,7 +22,8 @@ const menuItems = [
   { icon: Home, label: "Home", href: "/dashboard" },
   { icon: Calendar, label: "Scheduling", href: "/dashboard/scheduling" },
   { icon: FileText, label: "Medical Records", href: "/dashboard/records" },
-  { icon: CreditCard, label: "Payment", href: "/dashboard/payment" },
+  // { icon: CreditCard, label: "Payment", href: "/dashboard/payment" },
+  { icon: CreditCard, label: "Service", href: "/dashboard/service" },
 ];
 
 export default function SidebarComponent() {
@@ -77,7 +78,7 @@ export default function SidebarComponent() {
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <Link
-                href="/profile"
+                href="/dashboard/profile"
                 className="flex items-center gap-3 text-muted-foreground hover:text-primary"
               >
                 <User className="h-4 w-4" />
