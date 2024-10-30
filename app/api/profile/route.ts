@@ -12,6 +12,7 @@ export async function PUT(req: NextRequest) {
     // Parsing body request
     const body = await req.json();
     const input = UpdateProfileSchema.parse(body);
+    console.log(input);
 
     // Update profile
     const updatedProfile = await db.profile.update({

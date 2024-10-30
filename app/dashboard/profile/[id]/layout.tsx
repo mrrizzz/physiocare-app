@@ -6,12 +6,5 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <SidebarProvider>
-      <SidebarComponent />
-      <SidebarInset>
-        <main className="p-8">{children}</main>
-      </SidebarInset>
-    </SidebarProvider>
-  );
+  return <div className="container mx-auto max-w-2xl p-8">{children}</div>;
 }

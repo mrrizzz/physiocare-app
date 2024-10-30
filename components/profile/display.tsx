@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User, Phone, MapPin, Cake } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "@/hooks/use-toast";
+import { useProfile } from "@/hooks/profile";
 
 interface Profile {
   id: string;
@@ -27,40 +28,17 @@ interface Profile {
 }
 
 export default function ProfilePage() {
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const pathname = usePathname();
   const router = useRouter();
-
-  useEffect(() => {
-    async function fetchProfile() {
-      try {
-        const token = localStorage.getItem("token");
-
-        const response = await fetch("/api/profile", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-        const data = await response.json();
-        setProfile(data.data);
-      } catch (error) {
-        toast({
-          title: "Error",
-          description: "Failed to load profile. Please try again later.",
-          variant: "destructive",
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchProfile();
-  }, []);
+  const { profile, isLoading, refetch } = useProfile();
 
   const handleUpdateClick = () => {
-    router.push("/dashboard/profile/update");
+    const currentPath = pathname.split("/").pop();
+    const updatePath = currentPath?.concat("/update");
+    if (!updatePath) {
+      return;
+    }
+    router.push(updatePath);
   };
 
   if (isLoading) {

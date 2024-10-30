@@ -33,10 +33,12 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { UseProfileForm } from "@/hooks/profile";
+import { useProfile, UseProfileForm } from "@/hooks/profile";
 
 export function ProfileForm() {
-  const { form, onSubmit } = UseProfileForm();
+  const { form, onSubmit, profile } = UseProfileForm();
+
+  console.log(profile);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -91,7 +93,7 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="dob"
           render={({ field }) => (
@@ -132,7 +134,7 @@ export function ProfileForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <FormField
           control={form.control}
           name="gender"

@@ -16,18 +16,28 @@ import {
   SidebarProvider,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 import LogoutButton from "@/components/auth/logout-button";
+import { useAuthToken } from "@/hooks/use-auth-token";
+import { useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+
+interface Profile {
+  name: string;
+  email: string;
+  avatar?: string;
+}
 
 const menuItems = [
   { icon: Home, label: "Home", href: "/dashboard" },
   { icon: Calendar, label: "Scheduling", href: "/dashboard/scheduling" },
   { icon: FileText, label: "Medical Records", href: "/dashboard/records" },
-  // { icon: CreditCard, label: "Payment", href: "/dashboard/payment" },
   { icon: CreditCard, label: "Service", href: "/dashboard/service" },
 ];
 
 export default function SidebarComponent() {
   const pathname = usePathname();
+  const { userData, loading } = useAuthToken();
 
   return (
     <Sidebar className="border-r">
@@ -36,16 +46,35 @@ export default function SidebarComponent() {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <div className="flex items-center gap-3">
-                <Avatar>
-                  <AvatarImage src="/avatar.png" alt="User" />
-                  <AvatarFallback>JD</AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-semibold">John Doe</span>
-                  <span className="text-xs text-muted-foreground">
-                    john@example.com
-                  </span>
-                </div>
+                {loading ? (
+                  <>
+                    <Skeleton className="h-10 w-10 rounded-full" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-4 w-[100px]" />
+                      <Skeleton className="h-3 w-[120px]" />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <Avatar>
+                      <AvatarImage
+                        src={userData?.avatar || "/avatar.png"}
+                        alt={userData?.username || "User"}
+                      />
+                      <AvatarFallback>
+                        {userData?.username?.charAt(0) || "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col gap-0.5 leading-none">
+                      <span className="font-semibold">
+                        {userData?.username || "User"}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        {userData?.email || "user@example.com"}
+                      </span>
+                    </div>
+                  </>
+                )}
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -78,7 +107,7 @@ export default function SidebarComponent() {
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <Link
-                href="/dashboard/profile"
+                href={`/dashboard/profile/${userData?.id}`}
                 className="flex items-center gap-3 text-muted-foreground hover:text-primary"
               >
                 <User className="h-4 w-4" />
