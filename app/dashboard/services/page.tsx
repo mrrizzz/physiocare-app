@@ -1,10 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "@/hooks/use-toast";
 import { Activity } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 interface Service {
   id: number;
@@ -13,6 +21,11 @@ interface Service {
 }
 
 function ServiceCard({ service }: { service: Service }) {
+  const router = useRouter();
+
+  const handleBooking = () => {
+    router.push(`/dashboard/booking/${service.id}`);
+  };
   return (
     <Card className="w-full">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -23,6 +36,11 @@ function ServiceCard({ service }: { service: Service }) {
         <div className="text-2xl font-bold">${service.price}</div>
         <p className="text-xs text-muted-foreground">Per session</p>
       </CardContent>
+      <CardFooter>
+        <Button onClick={handleBooking} className="w-full">
+          Book Now
+        </Button>
+      </CardFooter>
     </Card>
   );
 }

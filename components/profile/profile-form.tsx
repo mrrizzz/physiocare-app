@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -31,14 +31,58 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { useProfile, UseProfileForm } from "@/hooks/profile";
+import { UseProfileForm } from "@/hooks/profile";
 
 export function ProfileForm() {
-  const { form, onSubmit, profile } = UseProfileForm();
+  const [isLoading, setIsLoading] = useState(true);
+  const { form, onSubmit } = UseProfileForm();
 
-  console.log(profile);
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const response = await fetch("/api/profile", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Adjust this to how you store your auth token
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch profile");
+        }
+        const data = await response.json();
+
+        // Update form default values with fetched data
+        form.reset({
+          name: data.data.name,
+          age: data.data.age,
+          address: data.data.address,
+          dob: new Date(data.data.dob),
+          gender: data.data.gender,
+          phone: data.data.phone,
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to load profile. Please try again later.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchProfile();
+  }, [form]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

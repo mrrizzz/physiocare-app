@@ -32,7 +32,7 @@ const menuItems = [
   { icon: Home, label: "Home", href: "/dashboard" },
   { icon: Calendar, label: "Scheduling", href: "/dashboard/scheduling" },
   { icon: FileText, label: "Medical Records", href: "/dashboard/records" },
-  { icon: CreditCard, label: "Service", href: "/dashboard/service" },
+  { icon: CreditCard, label: "Service", href: "/dashboard/services" },
 ];
 
 export default function SidebarComponent() {
