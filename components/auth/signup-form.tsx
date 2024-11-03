@@ -10,12 +10,12 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
-export const SignUpForm = ({
-  onSignUpSuccess,
-}: {
-  onSignUpSuccess?: () => void;
-}) => {
-  const { form, onSubmit } = useSignUpForm();
+interface SignUpFormProps {
+  onSignUpSuccess: () => void;
+}
+
+export function SignUpForm({ onSignUpSuccess }: SignUpFormProps) {
+  const { form, onSubmit } = useSignUpForm(onSignUpSuccess);
 
   return (
     <Form {...form}>
@@ -78,4 +78,4 @@ export const SignUpForm = ({
       </form>
     </Form>
   );
-};
+}

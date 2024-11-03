@@ -20,10 +20,8 @@ model Account {
 }
 
 enum Role {
-  patient
-  medics
-  officer
-  owner
+  STAFF
+  PATIENT
 }
 
 model Profile {
@@ -34,37 +32,39 @@ model Profile {
   gender         String?         @db.VarChar(10)
   address        String?
   phone          String?         @db.VarChar(50)
-  type           ProfileType
   created_at     DateTime        @default(now())
   updated_at     DateTime?       @updatedAt
   account        Account?
-  staff          Staff[]
-  scheduling     Scheduling[]
+  staff_profile  Staff?          // Changed to optional one-to-one
+  appointments   Scheduling[]    @relation("PatientAppointments")
   medical_record MedicalRecord[]
 }
 
-enum ProfileType {
-  staff
-  patient
+enum StaffType {
+  ADMIN
+  DOCTOR
+  OWNER
 }
 
 model Staff {
   id            Int            @id @default(autoincrement())
   profile       Profile        @relation(fields: [profile_id], references: [id])
-  profile_id    Int
+  profile_id    Int            @unique  // Added unique constraint for one-to-one
   position      Position       @relation(fields: [position_id], references: [id])
-  position_id   Int
+  position_id   Int            
+  type          StaffType      @default(DOCTOR)
+  salary        Int            @default(0)
   join_date     DateTime       @db.Date
   active        Boolean        @default(true)
   created_at    DateTime       @default(now())
   updated_at    DateTime?      @updatedAt
-  staff_service StaffService[]
-  scheduling    Scheduling[]
+  specialties   StaffService[]
+  appointments  Scheduling[]   @relation("StaffAppointments")
 }
 
 model Position {
-  id         Int     @id @default(autoincrement())
-  name       String
+  id         Int      @id @default(autoincrement())
+  name       String   @unique    // Added unique constraint
   max_salary Int
   min_salary Int
   staff      Staff[]
@@ -72,36 +72,38 @@ model Position {
 
 model Service {
   id            Int            @id @default(autoincrement())
-  name          String
+  name          String        @unique    // Added unique constraint
   price         Int
   staff_service StaffService[]
   scheduling    Scheduling[]
 }
 
 model StaffService {
-  staff      Staff     @relation(fields: [staff_id], references: [id])
-  staff_id   Int
-  service    Service   @relation(fields: [service_id], references: [id])
-  service_id Int
-  start_date DateTime  @db.Date
-  end_date   DateTime? @db.Date
+  id          Int       @id @default(autoincrement())  // Added id field
+  staff       Staff     @relation(fields: [staff_id], references: [id])
+  staff_id    Int
+  service     Service   @relation(fields: [service_id], references: [id])
+  service_id  Int
+  start_date  DateTime  @db.Date
+  end_date    DateTime? @db.Date
+  active      Boolean   @default(true)   // Added active status
 
-  @@id([staff_id, service_id, start_date])
+  @@unique([staff_id, service_id, start_date])
 }
 
 model Scheduling {
-  id             Int              @id @default(autoincrement())
-  staff          Staff            @relation(fields: [staff_id], references: [id])
+  id             Int             @id @default(autoincrement())
+  staff          Staff           @relation("StaffAppointments", fields: [staff_id], references: [id])
   staff_id       Int
-  patient        Profile          @relation(fields: [patient_id], references: [id])
+  patient        Profile         @relation("PatientAppointments", fields: [patient_id], references: [id])
   patient_id     Int
-  service        Service          @relation(fields: [service_id], references: [id])
+  service        Service         @relation(fields: [service_id], references: [id])
   service_id     Int
-  date           DateTime         @db.Date
+  date           DateTime        @db.Date
   session        Session
   status         SchedulingStatus
-  created_at     DateTime         @default(now())
-  updated_at     DateTime?        @updatedAt
+  created_at     DateTime        @default(now())
+  updated_at     DateTime?       @updatedAt
   medical_record MedicalRecord[]
   service_note   ServiceNote[]
 
@@ -109,15 +111,16 @@ model Scheduling {
 }
 
 enum Session {
-  morning
-  afternoon
-  evening
+  MORNING
+  AFTERNOON
+  EVENING
 }
 
 enum SchedulingStatus {
-  scheduled
-  completed
-  cancelled
+  WAITING
+  SCHEDULED
+  COMPLETED
+  CANCELLED
 }
 
 model MedicalRecord {
@@ -186,9 +189,9 @@ model MedicalInventory {
 }
 
 enum InventoryType {
-  medicine
-  aid
-  other
+  MEDICINE
+  AID
+  OTHER
 }
 
 model Payment {
@@ -203,7 +206,7 @@ model Payment {
 }
 
 enum PaymentStatus {
-  pending
-  paid
-  cancelled
+  PENDING
+  PAID
+  CANCELLED
 }

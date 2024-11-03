@@ -41,7 +41,7 @@ export const useLoginForm = () => {
           title: "Login Successful",
           description: "You will be redirected to the dashboard",
         });
-        router.push(role === "medics" ? "/dashboard" : "/user");
+        router.push("/dashboard");
       } else {
         throw new Error(data.error);
       }

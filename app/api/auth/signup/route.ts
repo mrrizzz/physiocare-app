@@ -24,7 +24,6 @@ export async function POST(request: NextRequest) {
       const profile = await tx.profile.create({
         data: {
           name: username,
-          type: "patient",
         },
       });
 
@@ -33,7 +32,7 @@ export async function POST(request: NextRequest) {
           email,
           password: hashedPassword,
           username,
-          role: "patient",
+          role: "PATIENT",
           profile_id: profile.id,
         },
         include: {
@@ -41,7 +40,6 @@ export async function POST(request: NextRequest) {
             select: {
               id: true,
               name: true,
-              type: true,
               created_at: true,
             },
           },

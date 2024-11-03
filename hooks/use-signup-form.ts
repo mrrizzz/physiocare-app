@@ -4,7 +4,7 @@ import { SignUpInput, SignUpSchema } from "@/schema/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-export const useSignUpForm = (onSignUpSuccess?: () => void) => {
+export const useSignUpForm = (onSignUpSuccess: () => void) => {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -33,8 +33,7 @@ export const useSignUpForm = (onSignUpSuccess?: () => void) => {
           title: "Signup Successful",
           description: "Please login with your new account",
         });
-        // setActiveTab("login");
-        onSignUpSuccess?.();
+        onSignUpSuccess();
       } else {
         throw new Error(data.error);
       }

@@ -19,25 +19,24 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import LogoutButton from "@/components/auth/logout-button";
 import { useAuthToken } from "@/hooks/use-auth-token";
-import { useEffect, useState } from "react";
-import { useToast } from "@/hooks/use-toast";
 
-interface Profile {
-  name: string;
-  email: string;
-  avatar?: string;
-}
-
-const menuItems = [
+const menuUserItems = [
   { icon: Home, label: "Home", href: "/dashboard" },
   { icon: Calendar, label: "Scheduling", href: "/dashboard/scheduling" },
   { icon: FileText, label: "Medical Records", href: "/dashboard/records" },
   { icon: CreditCard, label: "Service", href: "/dashboard/services" },
 ];
 
+const menuStaffItems = [
+  { icon: Home, label: "Home", href: "/dashboard" },
+  { icon: Calendar, label: "Scheduling", href: "/dashboard/scheduling" },
+  { icon: FileText, label: "Medical Records", href: "/dashboard/records" },
+];
+
 export default function SidebarComponent() {
   const pathname = usePathname();
   const { userData, loading } = useAuthToken();
+  const menuItems = userData?.role === "STAFF" ? menuStaffItems : menuUserItems;
 
   return (
     <Sidebar className="border-r">

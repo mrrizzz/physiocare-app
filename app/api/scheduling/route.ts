@@ -33,3 +33,43 @@ export async function POST(req: NextRequest) {
     return handleError(error);
   }
 }
+
+export async function GET(req: NextRequest) {
+  try {
+    // console.log(req);
+    const tokenInfo = getTokenFromRequest(req);
+
+    const schedules = await db.scheduling.findMany({
+      where: {
+        patient_id: tokenInfo.id, // Using ID from token
+      },
+      include: {
+        staff: {
+          include: {
+            profile: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        service: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        date: "desc",
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: "Scheduling created successfully",
+      data: schedules,
+    });
+  } catch (error) {
+    return handleError(error);
+  }
+}

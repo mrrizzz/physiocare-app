@@ -1,0 +1,203 @@
+.
+├── app
+│   ├── api
+│   │   ├── auth
+│   │   │   ├── login
+│   │   │   │   └── route.ts
+│   │   │   ├── logout
+│   │   │   │   └── route.ts
+│   │   │   └── signup
+│   │   │       └── route.ts
+│   │   ├── profile
+│   │   │   └── route.ts
+│   │   ├── scheduling
+│   │   │   └── route.ts
+│   │   ├── services
+│   │   │   └── route.ts
+│   │   └── staff
+│   │       └── route.ts
+│   ├── auth
+│   │   └── page.tsx
+│   ├── dashboard
+│   │   ├── booking
+│   │   │   └── [id]
+│   │   │       └── page.tsx
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── profile
+│   │   │   └── [id]
+│   │   │       ├── layout.tsx
+│   │   │       ├── page.tsx
+│   │   │       └── update
+│   │   │           └── page.tsx
+│   │   ├── scheduling
+│   │   │   └── page.tsx
+│   │   └── services
+│   │       └── page.tsx
+│   ├── favicon.ico
+│   ├── fonts
+│   │   ├── GeistMonoVF.woff
+│   │   └── GeistVF.woff
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── loading.tsx
+│   ├── not-found.tsx
+│   └── page.tsx
+├── components
+│   ├── auth
+│   │   ├── login-form.tsx
+│   │   ├── logout-button.tsx
+│   │   └── signup-form.tsx
+│   ├── dashboard
+│   │   └── sidebar.tsx
+│   ├── profile
+│   │   ├── display.tsx
+│   │   └── profile-form.tsx
+│   └── ui
+│       ├── avatar.tsx
+│       ├── badge.tsx
+│       ├── button.tsx
+│       ├── calendar.tsx
+│       ├── card.tsx
+│       ├── form.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── popover.tsx
+│       ├── select.tsx
+│       ├── separator.tsx
+│       ├── sheet.tsx
+│       ├── sidebar.tsx
+│       ├── skeleton.tsx
+│       ├── table.tsx
+│       ├── tabs.tsx
+│       ├── toaster.tsx
+│       ├── toast.tsx
+│       └── tooltip.tsx
+├── components.json
+├── hooks
+│   ├── profile.ts
+│   ├── use-auth-token.ts
+│   ├── use-login-form.ts
+│   ├── use-mobile.tsx
+│   ├── use-signup-form.ts
+│   └── use-toast.ts
+├── lib
+│   ├── db.ts
+│   └── utils.ts
+├── next.config.ts
+├── next-env.d.ts
+├── node_modules
+│   ├── bcryptjs -> .pnpm/bcryptjs@2.4.3/node_modules/bcryptjs
+│   ├── class-variance-authority -> .pnpm/class-variance-authority@0.7.0/node_modules/class-variance-authority
+│   ├── clsx -> .pnpm/clsx@2.1.1/node_modules/clsx
+│   ├── cookie -> .pnpm/cookie@1.0.1/node_modules/cookie
+│   ├── date-fns -> .pnpm/date-fns@4.1.0/node_modules/date-fns
+│   ├── @eslint
+│   │   ├── eslintrc -> ../.pnpm/@eslint+eslintrc@2.1.4/node_modules/@eslint/eslintrc
+│   │   └── js -> ../.pnpm/@eslint+js@8.57.1/node_modules/@eslint/js
+│   ├── eslint -> .pnpm/eslint@8.57.1/node_modules/eslint
+│   ├── @eslint-community
+│   │   ├── eslint-utils -> ../.pnpm/@eslint-community+eslint-utils@4.4.1_eslint@8.57.1/node_modules/@eslint-community/eslint-utils
+│   │   └── regexpp -> ../.pnpm/@eslint-community+regexpp@4.12.1/node_modules/@eslint-community/regexpp
+│   ├── eslint-config-next -> .pnpm/eslint-config-next@15.0.1_eslint@8.57.1_typescript@5.6.3/node_modules/eslint-config-next
+│   ├── eslint-import-resolver-node -> .pnpm/eslint-import-resolver-node@0.3.9/node_modules/eslint-import-resolver-node
+│   ├── eslint-import-resolver-typescript -> .pnpm/eslint-import-resolver-typescript@3.6.3_@typescript-eslint+parser@8.11.0_eslint@8.57.1_typesc_3eulfdmj5audej7qkh457santa/node_modules/eslint-import-resolver-typescript
+│   ├── eslint-module-utils -> .pnpm/eslint-module-utils@2.12.0_@typescript-eslint+parser@8.11.0_eslint@8.57.1_typescript@5.6.3__e_dxs3qhbq6sdxehblg2hqeqzogy/node_modules/eslint-module-utils
+│   ├── eslint-plugin-import -> .pnpm/eslint-plugin-import@2.31.0_@typescript-eslint+parser@8.11.0_eslint@8.57.1_typescript@5.6.3___sq237fwew5usld7se2qwyeifai/node_modules/eslint-plugin-import
+│   ├── eslint-plugin-jsx-a11y -> .pnpm/eslint-plugin-jsx-a11y@6.10.2_eslint@8.57.1/node_modules/eslint-plugin-jsx-a11y
+│   ├── eslint-plugin-react -> .pnpm/eslint-plugin-react@7.37.2_eslint@8.57.1/node_modules/eslint-plugin-react
+│   ├── eslint-plugin-react-hooks -> .pnpm/eslint-plugin-react-hooks@5.0.0_eslint@8.57.1/node_modules/eslint-plugin-react-hooks
+│   ├── eslint-scope -> .pnpm/eslint-scope@7.2.2/node_modules/eslint-scope
+│   ├── eslint-visitor-keys -> .pnpm/eslint-visitor-keys@3.4.3/node_modules/eslint-visitor-keys
+│   ├── @hookform
+│   │   └── resolvers -> ../.pnpm/@hookform+resolvers@3.9.0_react-hook-form@7.53.1_react@19.0.0-rc-69d4b800-20241021_/node_modules/@hookform/resolvers
+│   ├── jsonwebtoken -> .pnpm/jsonwebtoken@9.0.2/node_modules/jsonwebtoken
+│   ├── jwt-decode -> .pnpm/jwt-decode@4.0.0/node_modules/jwt-decode
+│   ├── lucide-react -> .pnpm/lucide-react@0.453.0_react@19.0.0-rc-69d4b800-20241021/node_modules/lucide-react
+│   ├── @next
+│   │   └── eslint-plugin-next -> ../.pnpm/@next+eslint-plugin-next@15.0.1/node_modules/@next/eslint-plugin-next
+│   ├── next -> .pnpm/next@15.0.1_react-dom@19.0.0-rc-69d4b800-20241021_react@19.0.0-rc-69d4b800-20241021__react@19.0.0-rc-69d4b800-20241021/node_modules/next
+│   ├── postcss -> .pnpm/postcss@8.4.47/node_modules/postcss
+│   ├── @prisma
+│   │   └── client -> ../.pnpm/@prisma+client@5.21.1_prisma@5.21.1/node_modules/@prisma/client
+│   ├── prisma -> .pnpm/prisma@5.21.1/node_modules/prisma
+│   ├── @radix-ui
+│   │   ├── react-avatar -> ../.pnpm/@radix-ui+react-avatar@1.1.1_@types+react-dom@18.3.1_@types+react@18.3.12_react-dom@19.0.0-rc_lehavwliypbrfd5aleksvcifuy/node_modules/@radix-ui/react-avatar
+│   │   ├── react-dialog -> ../.pnpm/@radix-ui+react-dialog@1.1.2_@types+react-dom@18.3.1_@types+react@18.3.12_react-dom@19.0.0-rc_xcf3pgxusrdif3qssu65cfn74u/node_modules/@radix-ui/react-dialog
+│   │   ├── react-icons -> ../.pnpm/@radix-ui+react-icons@1.3.0_react@19.0.0-rc-69d4b800-20241021/node_modules/@radix-ui/react-icons
+│   │   ├── react-label -> ../.pnpm/@radix-ui+react-label@2.1.0_@types+react-dom@18.3.1_@types+react@18.3.12_react-dom@19.0.0-rc-_offxefcq3nuzoaq73m6nzvax4q/node_modules/@radix-ui/react-label
+│   │   ├── react-popover -> ../.pnpm/@radix-ui+react-popover@1.1.2_@types+react-dom@18.3.1_@types+react@18.3.12_react-dom@19.0.0-r_urt47yibxtaeofaid57xviz22e/node_modules/@radix-ui/react-popover
+│   │   ├── react-select -> ../.pnpm/@radix-ui+react-select@2.1.2_@types+react-dom@18.3.1_@types+react@18.3.12_react-dom@19.0.0-rc_xwkjxqfeiuqweeunqs4gtaubke/node_modules/@radix-ui/react-select
+│   │   ├── react-separator -> ../.pnpm/@radix-ui+react-separator@1.1.0_@types+react-dom@18.3.1_@types+react@18.3.12_react-dom@19.0.0_ustr3vgpqy4vfrhxuss54l6z6a/node_modules/@radix-ui/react-separator
+│   │   ├── react-slot -> ../.pnpm/@radix-ui+react-slot@1.1.0_@types+react@18.3.12_react@19.0.0-rc-69d4b800-20241021/node_modules/@radix-ui/react-slot
+│   │   ├── react-tabs -> ../.pnpm/@radix-ui+react-tabs@1.1.1_@types+react-dom@18.3.1_@types+react@18.3.12_react-dom@19.0.0-rc-6_vmkhdlgfu5sgop2ntjktunssma/node_modules/@radix-ui/react-tabs
+│   │   ├── react-toast -> ../.pnpm/@radix-ui+react-toast@1.2.2_@types+react-dom@18.3.1_@types+react@18.3.12_react-dom@19.0.0-rc-_n2lmpebusvmuzeuvpsm36q6axi/node_modules/@radix-ui/react-toast
+│   │   └── react-tooltip -> ../.pnpm/@radix-ui+react-tooltip@1.1.3_@types+react-dom@18.3.1_@types+react@18.3.12_react-dom@19.0.0-r_gv32c7yptgvwmiivua33guw23y/node_modules/@radix-ui/react-tooltip
+│   ├── react -> .pnpm/react@19.0.0-rc-69d4b800-20241021/node_modules/react
+│   ├── react-day-picker -> .pnpm/react-day-picker@8.10.1_date-fns@4.1.0_react@19.0.0-rc-69d4b800-20241021/node_modules/react-day-picker
+│   ├── react-dom -> .pnpm/react-dom@19.0.0-rc-69d4b800-20241021_react@19.0.0-rc-69d4b800-20241021/node_modules/react-dom
+│   ├── react-hook-form -> .pnpm/react-hook-form@7.53.1_react@19.0.0-rc-69d4b800-20241021/node_modules/react-hook-form
+│   ├── @rushstack
+│   │   └── eslint-patch -> ../.pnpm/@rushstack+eslint-patch@1.10.4/node_modules/@rushstack/eslint-patch
+│   ├── tailwindcss -> .pnpm/tailwindcss@3.4.14/node_modules/tailwindcss
+│   ├── tailwindcss-animate -> .pnpm/tailwindcss-animate@1.0.7_tailwindcss@3.4.14/node_modules/tailwindcss-animate
+│   ├── tailwind-merge -> .pnpm/tailwind-merge@2.5.4/node_modules/tailwind-merge
+│   ├── @types
+│   │   ├── bcryptjs -> ../.pnpm/@types+bcryptjs@2.4.6/node_modules/@types/bcryptjs
+│   │   ├── cookie -> ../.pnpm/@types+cookie@0.6.0/node_modules/@types/cookie
+│   │   ├── jsonwebtoken -> ../.pnpm/@types+jsonwebtoken@9.0.7/node_modules/@types/jsonwebtoken
+│   │   ├── jwt-decode -> ../.pnpm/@types+jwt-decode@3.1.0/node_modules/@types/jwt-decode
+│   │   ├── node -> ../.pnpm/@types+node@20.17.1/node_modules/@types/node
+│   │   ├── react -> ../.pnpm/@types+react@18.3.12/node_modules/@types/react
+│   │   └── react-dom -> ../.pnpm/@types+react-dom@18.3.1/node_modules/@types/react-dom
+│   ├── typescript -> .pnpm/typescript@5.6.3/node_modules/typescript
+│   ├── @typescript-eslint
+│   │   ├── eslint-plugin -> ../.pnpm/@typescript-eslint+eslint-plugin@8.11.0_@typescript-eslint+parser@8.11.0_eslint@8.57.1_typesc_tz4vt3z3hwlraaabmw5v4giije/node_modules/@typescript-eslint/eslint-plugin
+│   │   ├── parser -> ../.pnpm/@typescript-eslint+parser@8.11.0_eslint@8.57.1_typescript@5.6.3/node_modules/@typescript-eslint/parser
+│   │   ├── scope-manager -> ../.pnpm/@typescript-eslint+scope-manager@8.11.0/node_modules/@typescript-eslint/scope-manager
+│   │   ├── types -> ../.pnpm/@typescript-eslint+types@8.11.0/node_modules/@typescript-eslint/types
+│   │   ├── typescript-estree -> ../.pnpm/@typescript-eslint+typescript-estree@8.11.0_typescript@5.6.3/node_modules/@typescript-eslint/typescript-estree
+│   │   ├── type-utils -> ../.pnpm/@typescript-eslint+type-utils@8.11.0_eslint@8.57.1_typescript@5.6.3/node_modules/@typescript-eslint/type-utils
+│   │   ├── utils -> ../.pnpm/@typescript-eslint+utils@8.11.0_eslint@8.57.1_typescript@5.6.3/node_modules/@typescript-eslint/utils
+│   │   └── visitor-keys -> ../.pnpm/@typescript-eslint+visitor-keys@8.11.0/node_modules/@typescript-eslint/visitor-keys
+│   └── zod -> .pnpm/zod@3.23.8/node_modules/zod
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.mjs
+├── prisma
+│   ├── create_query.sql
+│   ├── migrations
+│   │   ├── 20241025023106_create_database
+│   │   │   └── migration.sql
+│   │   ├── 20241025031554_create_layanan_and_posisi
+│   │   │   └── migration.sql
+│   │   ├── 20241025075427_create db in english
+│   │   │   └── migration.sql
+│   │   ├── 20241025130220_recreate_in_english
+│   │   │   └── migration.sql
+│   │   ├── 20241026081451_testing2
+│   │   │   └── migration.sql
+│   │   └── migration_lock.toml
+│   ├── schema.prisma
+│   └── seed_data.sql
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── README.md
+├── schema
+│   ├── auth.ts
+│   └── profile.ts
+├── tailwind.config.ts
+├── tree.txt
+├── tsconfig.json
+└── utils
+    ├── error-handling.ts
+    ├── interface.ts
+    ├── jwt-decode.ts
+    ├── pagination.ts
+    └── response-formatter.ts
+
+113 directories, 88 files
